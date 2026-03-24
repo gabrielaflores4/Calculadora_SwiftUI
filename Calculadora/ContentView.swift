@@ -15,36 +15,35 @@ struct ContentView: View {
     @State var estaEscribiendo = false
     
     let botones = [
-        ["C", "/", "x", "-"],
-        ["7", "8", "9", "+"],
-        ["4", "5", "6", "="],
-        ["1", "2", "3", "0"]
+        "C", "/", "x", "-",
+        "1", "2", "3", "+",
+        "4", "5", "6", "=",
+        "7", "8", "9", "0"
+    ]
+    
+    let columnas = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
     ]
     
     
     var body: some View {
         VStack(spacing: 10) {
             
-            // Pantalla
-            Text(resultado)
-                .font(.largeTitle)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .padding()
-            
-            // Botones
-            ForEach(0..<botones.count, id: \.self) { i in
-                HStack(spacing: 10) {
-                    ForEach(0..<botones[i].count, id: \.self) { j in
-                        let boton = botones[i][j]
-                        
-                        Button(action: {
-                            botonPresionado(boton)
-                        }) {
-                            Text(boton)
-                                .frame(maxWidth: .infinity, maxHeight: 60)
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(10)
-                        }
+            Text(resultado).font(.largeTitle).frame(maxWidth: .infinity, alignment: .trailing).padding()
+                
+            LazyVGrid(columns: columnas, spacing: 10) {
+                ForEach(botones, id: \.self) { boton in
+                    Button(action: {
+                        botonPresionado(boton)
+                    }) {
+                        Text(boton)
+                            .frame(height: 60)
+                            .frame(maxWidth: .infinity)
+                            .background(colorBoton(boton))
+                            .cornerRadius(10)
                     }
                 }
             }
@@ -99,6 +98,19 @@ struct ContentView: View {
             estaEscribiendo = false
         }
     }
+
+    func colorBoton(_ boton: String) -> Color {
+        if boton == "C" {
+            return .red.opacity(0.6)
+        }
+        if boton == "=" {
+            return .green.opacity(0.6)
+        }
+        if boton == "+" || boton == "-" || boton == "x" || boton == "/" {
+            return .orange.opacity(0.6)
+        }
+        return Color.gray.opacity(0.2)  
+    }   
 }
 
 #Preview {
