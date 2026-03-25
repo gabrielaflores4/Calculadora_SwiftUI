@@ -17,8 +17,9 @@ struct ContentView: View {
     let botones = [
         "C", "/", "x", "-",
         "1", "2", "3", "+",
-        "4", "5", "6", "=",
-        "7", "8", "9", "0"
+        "4", "5", "6", ".",
+        "7", "8", "9", "=",
+        "0"
     ]
     
     let columnas = [
@@ -32,6 +33,8 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 10) {
             
+            Spacer()
+            
             Text(resultado).font(.largeTitle).frame(maxWidth: .infinity, alignment: .trailing).padding()
                 
             LazyVGrid(columns: columnas, spacing: 10) {
@@ -40,7 +43,7 @@ struct ContentView: View {
                         botonPresionado(boton)
                     }) {
                         Text(boton)
-                            .frame(height: 60)
+                            .frame(height: 90)
                             .frame(maxWidth: .infinity)
                             .background(colorBoton(boton))
                             .cornerRadius(10)
