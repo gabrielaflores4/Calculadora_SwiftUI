@@ -16,10 +16,10 @@ struct ContentView: View {
     
     let botones = [
         "C", "/", "x", "-",
-        "1", "2", "3", "+",
-        "4", "5", "6", ".",
-        "7", "8", "9", "=",
-        "0"
+        "7", "8", "9", "+",
+        "4", "5", "6", "=",
+        "1", "2", "3", "",
+        "0", ".", "", ""
     ]
     
     let columnas = [
@@ -39,14 +39,19 @@ struct ContentView: View {
                 
             LazyVGrid(columns: columnas, spacing: 10) {
                 ForEach(botones, id: \.self) { boton in
-                    Button(action: {
-                        botonPresionado(boton)
-                    }) {
-                        Text(boton)
-                            .frame(height: 90)
-                            .frame(maxWidth: .infinity)
-                            .background(colorBoton(boton))
-                            .cornerRadius(10)
+                    if boton == "" {
+                        Color.clear.frame(height: 90)
+                    } else {
+                        Button(action: {
+                            botonPresionado(boton)
+                        }) {
+                            Text(boton)
+                                .frame(height: 90)
+                                .frame(maxWidth: .infinity)
+                                .background(colorBoton(boton))
+                                .cornerRadius(10)
+                        }
+                        .gridCellColumns(boton == "0" ? 2 : 1)
                     }
                 }
             }
