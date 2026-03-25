@@ -15,11 +15,11 @@ struct ContentView: View {
     @State var estaEscribiendo = false
     
     let botones = [
-        "C", "/", "x", "-",
-        "7", "8", "9", "+",
-        "4", "5", "6", "=",
-        "1", "2", "3", "",
-        "0", ".", "", ""
+        "C", "", "", "",
+        "7", "8", "9", "/",
+        "4", "5", "6", "x",
+        "1", "2", "3", "-",
+        "0", ".", "=", "+"
     ]
     
     let columnas = [
@@ -51,7 +51,6 @@ struct ContentView: View {
                                 .background(colorBoton(boton))
                                 .cornerRadius(10)
                         }
-                        .gridCellColumns(boton == "0" ? 2 : 1)
                     }
                 }
             }
