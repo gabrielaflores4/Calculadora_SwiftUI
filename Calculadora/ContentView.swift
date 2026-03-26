@@ -67,7 +67,6 @@ struct ContentView: View {
     
     func botonPresionado(_ texto: String) {
         
-        // NÚMEROS
         if Double(texto) != nil {
             if estaEscribiendo {
                 resultado += texto
@@ -83,7 +82,6 @@ struct ContentView: View {
             return
         }
         
-        // PUNTO DECIMAL
         if texto == "." {
             if !estaEscribiendo {
                 resultado = "0."
@@ -99,7 +97,6 @@ struct ContentView: View {
             return
         }
         
-        // LIMPIAR
         if texto == "C" {
             resultado = "0"
             historial = ""
@@ -110,7 +107,6 @@ struct ContentView: View {
             return
         }
         
-        // OPERACIONES
         if texto == "+" || texto == "-" || texto == "x" || texto == "/" {
             if let valor = Double(resultado) {
                 num1 = valor
@@ -125,7 +121,6 @@ struct ContentView: View {
             return
         }
         
-        // IGUAL
         if texto == "=" {
             if let valor = Double(resultado) {
                 num2 = valor
