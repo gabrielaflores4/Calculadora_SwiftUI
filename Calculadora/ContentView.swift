@@ -58,53 +58,96 @@ struct ContentView: View {
         .padding()
     }
     
-    func botonPresionado(_ texto: String) {
-        
-        if Double(texto) != nil {
-            if estaEscribiendo {
-                resultado += texto
-            } else {
-                resultado = texto
-                estaEscribiendo = true
-            }
-            return
+func botonPresionado(_ texto: String) {
+    
+    // NÚMEROS
+    if Double(texto) != nil {
+        if estaEscribiendo {
+            resultado += texto
+        } else {
+            resultado = texto
+            estaEscribiendo = true
         }
-        
-        if texto == "C" {
-            resultado = "0"
-            num1 = 0
-            num2 = 0
-            operacion = ""
-            estaEscribiendo = false
-            return
-        }
-        
-        if texto == "+" || texto == "-" || texto == "x" || texto == "/" {
-            num1 = Double(resultado) ?? 0
-            operacion = texto
-            estaEscribiendo = false
-            return
-        }
-        
-        if texto == "=" {
-            num2 = Double(resultado) ?? 0
-            
-            switch operacion {
-            case "+":
-                resultado = "\(num1 + num2)"
-            case "-":
-                resultado = "\(num1 - num2)"
-            case "x":
-                resultado = "\(num1 * num2)"
-            case "/":
-                resultado = num2 == 0 ? "Error" : "\(num1 / num2)"
-            default:
-                break
-            }
-            
-            estaEscribiendo = false
-        }
+        return
     }
+    
+    // PUNTO DECIMAL
+    if texto == "." {
+        if !estaEscribiendo {
+            resultado = "0."
+            estaEscribiendo = true
+            return
+        }
+        
+        if resultado.contains(".") {
+            return
+        }
+        
+        resultado += "."
+        return
+    }
+    
+    // LIMPIAR
+    if texto == "C" {
+        resultado = "0"
+        num1 = 0
+        num2 = 0
+        operacion = ""
+        estaEscribiendo = false
+        return
+    }
+    
+    // OPERACIONES
+    if texto == "+" || texto == "-" || texto == "x" || texto == "/" {
+        if let valor = Double(resultado) {
+            num1 = valor
+        } else {
+            resultado = "Error"
+            return
+        }
+        
+        operacion = texto
+        estaEscribiendo = false
+        return
+    }
+    
+    // IGUAL
+    if texto == "=" {
+        if let valor = Double(resultado) {
+            num2 = valor
+        } else {
+            resultado = "Error"
+            return
+        }
+        
+        var resultadoFinal: Double = 0
+        
+        switch operacion {
+        case "+":
+            resultadoFinal = num1 + num2
+        case "-":
+            resultadoFinal = num1 - num2
+        case "x":
+            resultadoFinal = num1 * num2
+        case "/":
+            if num2 == 0 {
+                resultado = "Error"
+                return
+            } else {
+                resultadoFinal = num1 / num2
+            }
+        default:
+            break
+        }
+        
+        // 🔥 SIN .0 innecesario
+        resultado = resultadoFinal == floor(resultadoFinal)
+            ? "\(Int(resultadoFinal))"
+            : "\(resultadoFinal)"
+        
+        estaEscribiendo = false
+    }
+}
 
     func colorBoton(_ boton: String) -> Color {
         if boton == "C" {
